@@ -22,15 +22,12 @@ value_t print(Logger &logger, value_t lhs) {
 }
 }  // namespace StackLang
 
-Interpreter::Interpreter(string &&source, Logger &logger)
-    : tokenizer({move(source)}),
+Interpreter::Interpreter(istream_iterator<string> isit, Logger &logger)
+    : isit(isit),
       if_states({}),
       if_wait_skip_len(0),
       fn_stack({}),
-      logger(logger) {
-  tokens = tokenizer.tokenize();
-  tokens_it = tokens.begin();
-};
+      logger(logger){};
 
 void Interpreter::interpret() {
   const regex num_regex("^[\\-+]?\\d+(\\.\\d+|)$");
@@ -187,9 +184,9 @@ optional<string> Interpreter::next_token() {
     return {token};
   }
 
-  if (tokens_it != tokens.end()) {
-    string token = *tokens_it;
-    tokens_it++;
+  if (isit != istream_iterator<string>()) {
+    string token{*isit};
+    isit++;
     return {token};
   }
 

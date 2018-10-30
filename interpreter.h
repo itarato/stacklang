@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iterator>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -18,15 +19,11 @@ enum IfState {
 };
 
 struct Interpreter {
-  Tokenizer tokenizer;
-
-  Interpreter(string &&, Logger &);
-
+  Interpreter(istream_iterator<string> isit, Logger &);
   void interpret();
 
  private:
-  vector<string> tokens;
-  vector<string>::iterator tokens_it;
+  istream_iterator<string> isit;
   vector<value_t> stack;
   vector<IfState> if_states;
   uint8_t if_wait_skip_len;
