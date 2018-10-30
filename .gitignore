@@ -1,2 +1,8 @@
 stacklang
-
+.vscode
+CMakeCache.txt
+CMakeFiles
+Makefile
+a.out
+build
+cmake_install.cmake
